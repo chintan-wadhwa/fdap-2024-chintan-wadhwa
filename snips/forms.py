@@ -8,7 +8,7 @@ class SnipForm(forms.Form):
         data = self.cleaned_data['snip_id']
         normalized_data = data.replace('-', '').lower()
         if len(normalized_data) != 9:
-            raise forms.ValidationError("Ensure the Snip ID is exactly 9 characters.")
+            raise forms.ValidationError("Ensure that the Snip ID is 9 characters long.")
         return normalized_data
 
 
