@@ -16,9 +16,9 @@ def format_snip_id(snip_id:str):
     # Separate the string by inserting a hyphen every third character
     return "-".join(cleaned_snip_id[i:i+3] for i in range(0, len(cleaned_snip_id), 3))
 
-def create_snipsheet_pdf(snip_ids:list, snipsheet_id:str, base_link:str="www.studysnips.com"):
+def create_snipsheet_pdf(snip_ids:list, snipsheet_id:str):
     # Combine each hash code with the base link
-    base_link = "www.studysnips.com"
+    base_link = "https://studysnips.eu.pythonanywhere.com/"
     full_links = [f"{base_link}?snip_id={code}" for code in snip_ids]
     # Initialize matplotlib figure and PdfPages object
     pdf_pages = PdfPages(os.path.join(snipsheets_dir, f"{snipsheet_id}.pdf"))
