@@ -10,6 +10,7 @@ class Classroom(models.Model):
     semester = models.CharField(max_length=255)
     school = models.CharField(max_length=255)
     email = models.EmailField(max_length=254, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)  # Automatically update timestamp when the object is saved
 
     def save(self, *args, **kwargs):
         if not self.classroom_id:
@@ -27,6 +28,7 @@ class Classroom(models.Model):
 class Snipsheet(models.Model):
     classroom = models.ForeignKey(Classroom, related_name='snipsheets', on_delete=models.CASCADE)
     snipsheet_id = models.CharField(max_length=255, unique=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True)  # Automatically update timestamp when the object is saved
 
     def create_snips(self):
         existing_snip_ids = set(Snip.objects.filter(snipsheet__classroom=self.classroom)
@@ -60,6 +62,7 @@ class Snip(models.Model):
     snipsheet = models.ForeignKey(Snipsheet, related_name='snips', on_delete=models.CASCADE)
     snip_id = models.CharField(max_length=9)
     student_id = models.CharField(max_length=255, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)  # Automatically update timestamp when the object is saved
     
     def __str__(self):
         return self.snip_id

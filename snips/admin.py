@@ -2,14 +2,14 @@ from django.contrib import admin
 from .models import Classroom, Snipsheet, Snip
 
 class ClassroomAdmin(admin.ModelAdmin):
-    list_display = ('classroom_id', 'name', 'semester', 'school')
+    list_display = ('classroom_id', 'name', 'semester', 'school', 'email', 'updated_at')
 
 class SnipsheetAdmin(admin.ModelAdmin):
-    list_display = ('snipsheet_id', 'classroom_id')
+    list_display = ('snipsheet_id', 'classroom_id', 'updated_at')
     list_filter = ('classroom_id',)
 
 class SnipAdmin(admin.ModelAdmin):
-    list_display = ('snip_id', 'student_id', 'snipsheet', 'get_classroom_id')
+    list_display = ('snip_id', 'student_id', 'snipsheet', 'get_classroom_id', 'updated_at')
     search_fields = ('student_id', 'snip_id')
     list_filter = ('snipsheet',)
 
