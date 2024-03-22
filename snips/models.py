@@ -63,6 +63,7 @@ class Snip(models.Model):
     snip_id = models.CharField(max_length=9)
     student_id = models.CharField(max_length=255, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)  # Automatically update timestamp when the object is saved
+    claim_attempts = models.IntegerField(default=0)  # This increments every time a student tries to claim this snip
     
     def __str__(self):
         return self.snip_id

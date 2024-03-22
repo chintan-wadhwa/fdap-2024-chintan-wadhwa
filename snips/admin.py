@@ -9,7 +9,7 @@ class SnipsheetAdmin(admin.ModelAdmin):
     list_filter = ('classroom_id',)
 
 class SnipAdmin(admin.ModelAdmin):
-    list_display = ('snip_id', 'student_id', 'snipsheet', 'get_classroom_id', 'updated_at')
+    list_display = ('snip_id', 'student_id', 'snipsheet', 'get_classroom_id', 'updated_at', 'claim_attempts')
     search_fields = ('student_id', 'snip_id')
     list_filter = ('snipsheet',)
 

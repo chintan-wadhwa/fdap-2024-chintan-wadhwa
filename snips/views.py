@@ -28,11 +28,12 @@ def home(request):
             student_id = form.cleaned_data['student_id']
             try:
                 snip = Snip.objects.get(snip_id=snip_id)
+                snip.claim_attempts += 1
                 if snip.student_id:
                     message = 'Nice try, but this Snip has already been claimed. 😑'
+                    form = SnipForm()  # Reset form
                 else:
                     snip.student_id = student_id
-                    snip.save()
                     # Access the classroom through the snip's snipsheet
                     classroom = snip.snipsheet.classroom
                     # Count how many Snips the student has in this classroom
@@ -42,6 +43,7 @@ def home(request):
                     # Update the success message to include the ordinal number and random emoji
                     message = f'Awesome, you have successfully claimed your {ordinal_format(number_of_snips)} Snip! {emoji}'
                     form = SnipForm()  # Reset form
+                snip.save()
             except Snip.DoesNotExist:
                 message = 'Sorry, this Snip does not exist. ☹️'
     else:
