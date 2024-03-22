@@ -37,11 +37,11 @@ def home(request):
                     # Access the classroom through the snip's snipsheet
                     classroom = snip.snipsheet.classroom
                     # Count how many Snips the student has in this classroom
-                    number_of_snips = Snip.objects.filter(snipsheet__classroom=classroom, student_id=student_id).count()
+                    previously_claimed_snips = Snip.objects.filter(snipsheet__classroom=classroom, student_id=student_id).count()
                     # Select emoji for this message
                     emoji = random.choice(['🎉', '👏', '🎈', '🥳', '😎', '🙌'])
                     # Update the success message to include the ordinal number and random emoji
-                    message = f'Awesome, you have successfully claimed your {ordinal_format(number_of_snips)} Snip! {emoji}'
+                    message = f'Awesome, you have successfully claimed your {ordinal_format(previously_claimed_snips + 1)} Snip! {emoji}'
                     form = SnipForm()  # Reset form
                 snip.save()
             except Snip.DoesNotExist:
