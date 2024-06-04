@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect
 from .forms import SnipForm
 from .models import Snip
 import random
+# API specific imports
+from django.http import JsonResponse
+from django.db.models import Count, DateField
+from django.db.models.functions import TruncDate
 
 def ordinal_format(n):
     """
@@ -52,3 +56,16 @@ def home(request):
 
     context = {'form': form, 'message': message}
     return render(request, 'snips/home.html', context)
+
+# API
+def api_chart_data(request):
+    # Filter the Snips where student_id is not empty or null, then group by date
+    data = (Snip.objects
+                .filter(student_id__isnull=False, student_id__gt='')
+                .annotate(date=TruncDate('updated_at'))
+                .values('date')
+                .annotate(count=Count('id'))
+                .order_by('date'))
+    # Format the data for the chart (date in 'YYYY-MM-DD' format and the count)
+    chart_data = [{'date': entry['date'].isoformat(), 'count': entry['count']} for entry in data]
+    return JsonResponse(chart_data, safe=False)
