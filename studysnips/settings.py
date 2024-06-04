@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'xfgy4ofmu9$(j))5a^ijx$_6bgbo@5&8ywn!+3nkr6h-zglq1^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "studysnips.eu.pythonanywhere.com"]
 
