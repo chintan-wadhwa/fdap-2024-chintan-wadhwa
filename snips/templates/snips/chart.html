@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snip Claim Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        canvas {
+            width: 100vw !important;
+            height: 90vh !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Claimed Snips Per Day</h1>
+    <canvas id="snipChart"></canvas>
+    <script>
+        const ctx = document.getElementById('snipChart').getContext('2d');
+        fetch('/api/chart')
+            .then(response => response.json())
+            .then(data => {
+                const dates = data.map(item => item.date);
+                const counts = data.map(item => item.count);
+                const chart = new Chart(ctx, {
+                    type: 'bar', // Changed to 'bar' chart type
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'Claimed Snips per Day',
+                            data: counts,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light blue fill
+                            borderColor: 'rgb(75, 192, 192)', // Solid blue border
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true, // Make the chart responsive
+                        maintainAspectRatio: false, // Maintain aspect ratio to fill the container
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+</html>

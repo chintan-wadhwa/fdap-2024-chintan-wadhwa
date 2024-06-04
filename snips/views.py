@@ -69,3 +69,7 @@ def api_chart_data(request):
     # Format the data for the chart (date in 'YYYY-MM-DD' format and the count)
     chart_data = [{'date': entry['date'].isoformat(), 'count': entry['count']} for entry in data]
     return JsonResponse(chart_data, safe=False)
+
+# Chart
+def chart_page(request):
+    return render(request, 'snips/chart.html')
