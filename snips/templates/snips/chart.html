@@ -8,38 +8,83 @@
     <style>
         canvas {
             width: 100vw !important;
-            height: 90vh !important;
+            height: 45vh !important; /* Adjusted to fit both charts */
         }
     </style>
 </head>
 <body>
     <h1>Claimed Snips Per Day</h1>
     <canvas id="snipChart"></canvas>
+    
+    <h1>Deribit BTC-PERPETUAL Data</h1>
+    <canvas id="deribitChart"></canvas>
+    
     <script>
-        const ctx = document.getElementById('snipChart').getContext('2d');
+        // Existing chart for snips
+        const ctx1 = document.getElementById('snipChart').getContext('2d');
         fetch('/api/chart')
             .then(response => response.json())
             .then(data => {
                 const dates = data.map(item => item.date);
                 const counts = data.map(item => item.count);
-                const chart = new Chart(ctx, {
-                    type: 'bar', // Changed to 'bar' chart type
+                new Chart(ctx1, {
+                    type: 'bar',
                     data: {
                         labels: dates,
                         datasets: [{
                             label: 'Claimed Snips per Day',
                             data: counts,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light blue fill
-                            borderColor: 'rgb(75, 192, 192)', // Solid blue border
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgb(75, 192, 192)',
                             borderWidth: 1
                         }]
                     },
                     options: {
-                        responsive: true, // Make the chart responsive
-                        maintainAspectRatio: false, // Maintain aspect ratio to fill the container
+                        responsive: true,
+                        maintainAspectRatio: false,
                         scales: {
                             y: {
                                 beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+
+        // New chart for Deribit data
+        const ctx2 = document.getElementById('deribitChart').getContext('2d');
+        fetch('/api/deribit')
+            .then(response => response.json())
+            .then(data => {
+                const times = data.map(d => new Date(d.t).toLocaleString());
+                const prices = data.map(d => d.c);
+                new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: times,
+                        datasets: [{
+                            label: 'BTC-PERPETUAL Closing Prices',
+                            data: prices,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            fill: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Price (USD)'
+                                }
                             }
                         }
                     }
